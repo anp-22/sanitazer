@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+#
+var="y"
+wd=${1:-"$(pwd)"}
+wd="${wd}/"
+echo "** Cleanning Files Names **"
+read -r -p  "Sanitazing ""$wd"" Continue (n/Y): " ans
+ans=${ans:-$var}
+if [ "$ans" != "$var" ];  then
+    echo "Terminado por el usuarion. Fail";
+    exit 1;
+fi
+
+# Clean foldernames
+#
+(
+
+    echo "** Cleanning Files Names **"
+    find "$wd"  -ignore_readdir_race -depth -type f  -exec /home/anp/SRC/PERL/sanitazer/sanitazer13.pl '{}'  \;
+)
+
+# the () prevent effects inmidialy after finishing
+#
+
