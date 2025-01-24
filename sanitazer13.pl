@@ -232,25 +232,25 @@ sub sanitaze {
 
     $odir =~ s/-/\ /g;
 
-    $odir =~ s/\\//g;          	#remove backslases
-    $odir =~ s/\*/x/g;      	#windows doesn't like this at all :-)
-    $odir =~ s/&/-and-/g;       #ampersand to english
+    $odir =~ s/\\//g;               #remove backslases
+    $odir =~ s/\*/x/g;              #windows doesn't like this at all :-)
+    $odir =~ s/&/-and-/g;           #ampersand to english
     $odir =~ s/@/-at-/g;
 
     #some cleanup
-    $odir =~ s/_+/-/g;     	#Dashes should not be surounded by underscores
-    $odir =~ s/--/-/g;     	#Dashes should not be surounded by underscores
+    $odir =~ s/_+/-/g;     #Dashes should not be surounded by underscores
+    $odir =~ s/--/-/g;     #Dashes should not be surounded by underscores
     $odir =~ s/\ -/-/g;
     $odir =~ s/-\ /-/g;
-    $odir =~ s/--+/-/g;    	#Reduce multiple dashes to one
-    $odir =~ s/\ +$//g;    	#Remove spaces at the end
-    $odir =~ s/^\ +//g;    	#Remove spaces at the front
-    $odir =~ s/^\.+//g;    	#Remove . at the front
-    $odir =~ s/\.+$//g;    	#Remove . at the end
-    $odir =~ s/\;/-/g;     	#remove ; from the filename
-    $odir =~ s/\-$//g;     	#remove - from the end of the filename
-    $odir =~ s/^\-+//g;    	#remove - from the front of the filename
-    $odir =~ s/\ +/-/g;    	#remove - Multiple to one -
+    $odir =~ s/--+/-/g;    #Reduce multiple dashes to one
+    $odir =~ s/\ +$//g;    #Remove spaces at the end
+    $odir =~ s/^\ +//g;    #Remove spaces at the front
+    $odir =~ s/^\.+//g;    #Remove . at the front
+    $odir =~ s/\.+$//g;    #Remove . at the end
+    $odir =~ s/\;/-/g;     #remove ; from the filename
+    $odir =~ s/\-$//g;     #remove - from the end of the filename
+    $odir =~ s/^\-+//g;    #remove - from the front of the filename
+    $odir =~ s/\ +/-/g;    #remove - Multiple to one -
 
     return ($odir);
 
