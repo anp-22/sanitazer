@@ -83,7 +83,7 @@ if ( length($ext) > 5 ) {
 
 # say "|X|", $file, "||", $fname, "||", $fdir, "||", $ext, "||";
 $ofname  = raccents("$fname");
-$ofname  =~ s/^-/\ /g;
+$ofname  =~ s/[-|_]/\ /g;
 $ofname  = titlecase($ofname);
 $ofname  = sanitaze("$ofname");
 $ofnamex = $ofname;
