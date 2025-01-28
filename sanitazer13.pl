@@ -4,9 +4,10 @@ use autodie;
 use strict;
 use utf8;
 use v5.38;
-
-# use version;
-# use warnings;
+use Text::Unidecode;
+use Date::Simple ( 'date', 'today' );
+use File::Basename;
+use warnings;
 use Cwd;
 
 =pod
@@ -17,8 +18,9 @@ use Cwd;
 
 =head1 NAME 
 
-    sanitazer13         Clean files names and title capiatalize names in
-                        folders and files from non ascii characters.
+    sanitazer13         Clean filenames and title capitalize names in folders and files,
+                  	removing non-ASCII characters
+                        
 
 =head1 SYNOPSIS 
 
@@ -26,7 +28,7 @@ use Cwd;
 
 =head1 VERSION
 
-our $VERSION = qv('0.5.0');
+our $VERSION = qv('0.6.0');
 
    Date: Thu Dec  7 01:36:31 PM -04 2023
 
@@ -50,10 +52,6 @@ our $VERSION = qv('0.5.0');
 
 #
 #
-use Text::Unidecode;
-use Date::Simple ( 'date', 'today' );
-use File::Basename;
-
 my $blk = "  ";    # blank space
 my $ext = "";
 my $fdir;          # a directory entry workging area
@@ -85,7 +83,7 @@ if ( length($ext) > 5 ) {
 
 # say "|X|", $file, "||", $fname, "||", $fdir, "||", $ext, "||";
 $ofname  = raccents("$fname");
-$ofname  = sanitaze("$ofname");
+$ofname  =~ s/^-/\ /g;
 $ofname  = titlecase($ofname);
 $ofname  = sanitaze("$ofname");
 $ofnamex = $ofname;
@@ -105,6 +103,7 @@ if ( $file ne $ofile ) {
 # }
 
 # remove accents and especial characters from foreing words
+
 sub raccents {
     my $odir;
     ($odir) = @_;
@@ -250,7 +249,7 @@ sub sanitaze {
     $odir =~ s/\;/-/g;     #remove ; from the filename
     $odir =~ s/\-$//g;     #remove - from the end of the filename
     $odir =~ s/^\-+//g;    #remove - from the front of the filename
-    $odir =~ s/\ +/-/g;    #remove - Multiple to one -
+    $odir =~ s/\ +/-/g;    #remove - one or more spaces to one -
 
     return ($odir);
 
