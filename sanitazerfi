@@ -4,6 +4,12 @@ var="y"
 wd=${1:-"$(pwd)"}
 wd="${wd}/"
 echo "** Cleanning Files Names **"
+
+if [ ""$wd"" == ""$HOME/"" ]; then
+    echo "***  Invalid Folder ""$wd"" ***"
+    exit 1
+fi
+
 read -r -p "Sanitazing ""$wd"" Continue (n/Y): " ans
 ans=${ans:-$var}
 if [ "$ans" != "$var" ]; then
