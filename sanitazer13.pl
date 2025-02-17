@@ -47,6 +47,7 @@ our $VERSION = qv('0.6.0');
     You should have received a copy of the GNU General Public License along with this program.
     If not, see <https://www.gnu.org/licenses/>. 
  
+Copyright (C) 2025 Agustin Navarro (agustin.navarro@gmail.com)
 
 =cut
 
@@ -72,7 +73,11 @@ if ( $file eq "." or $file eq ".." ) {
     exit;
 }
 
-# print ($file, "\n");
+if ( !-f $file && !-d $file ) {
+    say "incorrect $file";
+    exit(1);
+}
+
 print("*");
 $ofile = " ";
 ( $fname, $fdir, $ext ) = fileparse( $file, qr/\.[^.]*/ );
@@ -81,9 +86,8 @@ if ( length($ext) > 5 ) {
     $ext = "";
 }
 
-# say "|X|", $file, "||", $fname, "||", $fdir, "||", $ext, "||";
-$ofname  = raccents("$fname");
-$ofname  =~ s/[-|_]/\ /g;
+$ofname = raccents("$fname");
+$ofname =~ s/[-|_]/\ /g;
 $ofname  = titlecase($ofname);
 $ofname  = sanitaze("$ofname");
 $ofnamex = $ofname;
@@ -92,7 +96,6 @@ if ( $ext ne "" ) {
 }
 $ofile = $fdir . $ofnamex;
 
-# say "||Z||", $file, "||", $ofile, "||";
 if ( $file ne $ofile ) {
     movefile( $fdir, "$file", $ofname, $ext );
 }
@@ -115,34 +118,33 @@ sub raccents {
 
 sub titlecase {
 
-# 	This filter changes all words to Title Caps, and attempts to be clever
-#	about *un*capitalizing small words like a/an/the in the input.
-#
-#	The list of "small words" which are not capped comes from
-#	the New York Times Manual of Style, plus 'vs' and 'v'.
-#
-#	10 May 2008
-#	Original version by John Gruber:
-#	http://daringfireball.net/2008/05/title_case
-#
-#	28 July 2008
-#	Re-written and much improved by Aristotle Pagaltzis:
-#	http://plasmasturm.org/code/titlecase/
-#
-#   Full change log at __END__.
-#
-#	License: http://www.opensource.org/licenses/mit-license.php
-# Changes:
-# Thu, 06 Nov 2014
-# - Removed /o switch from substitutions; it's out-dated and described now as only "pretending" to optimize
-# - Special cases for small words in two-word compounds, like "stand0-in" and "in-flight" (but not "man-in-the-middle")
-# Mon, 26 Oct 2020
-# - Removed the while(<>) loop. now is a subroutine. agustin.navarro@gmail.com
-#
-    my @small_words =
-      qw( (?<!q&)a an and as at(?!&t) but by en for if in of on or the to v[.]? via vs[.]? );
-    my $small_re = join '|', @small_words;
-    my $apos     = qr/ (?: ['’] [[:lower:]]* )? /x;
+    # 	This filter changes all words to Title Caps, and attempts to be clever
+    #	about *un*capitalizing small words like a/an/the in the input.
+    #
+    #	The list of "small words" which are not capped comes from
+    #	the New York Times Manual of Style, plus 'vs' and 'v'.
+    #
+    #	10 May 2008
+    #	Original version by John Gruber:
+    #	http://daringfireball.net/2008/05/title_case
+    #
+    #	28 July 2008
+    #	Re-written and much improved by Aristotle Pagaltzis:
+    #	http://plasmasturm.org/code/titlecase/
+    #
+    #   Full change log at __END__.
+    #
+    #	License: http://www.opensource.org/licenses/mit-license.php
+    # Changes:
+    # Thu, 06 Nov 2014
+    # - Removed /o switch from substitutions; it's out-dated and described now as only "pretending" to optimize
+    # - Special cases for small words in two-word compounds, like "stand0-in" and "in-flight" (but not "man-in-the-middle")
+    # Mon, 26 Oct 2020
+    # - Removed the while(<>) loop. now is a subroutine. agustin.navarro@gmail.com
+    #
+    my @small_words = qw( (?<!q&)a an and as at(?!&t) but by en for if in of on or the to v[.]? via vs[.]? );
+    my $small_re    = join '|', @small_words;
+    my $apos        = qr/ (?: ['’] [[:lower:]]* )? /x;
     $_ = qq{@_};
     s/\-/\ /g;
     s{\A\s+}{};
@@ -206,8 +208,6 @@ sub sanitaze {
     my $odir;
     ($odir) = @_;
 
-    # say "||Y||", $odir, "||",  "||";
-
     # This section was copied and modified from sanity.pl from git
     #    sanity.pl - Sanitize Filenames
     # Copyright (C) 2003-2005 Andreas Gohr <andi@splitbrain.org>
@@ -237,19 +237,19 @@ sub sanitaze {
     $odir =~ s/@/-at-/g;
 
     #some cleanup
-    $odir =~ s/_+/-/g;     #Dashes should not be surounded by underscores
-    $odir =~ s/--/-/g;     #Dashes should not be surounded by underscores
+    $odir =~ s/_+/-/g;              #Dashes should not be surounded by underscores
+    $odir =~ s/--/-/g;              #Dashes should not be surounded by underscores
     $odir =~ s/\ -/-/g;
     $odir =~ s/-\ /-/g;
-    $odir =~ s/--+/-/g;    #Reduce multiple dashes to one
-    $odir =~ s/\ +$//g;    #Remove spaces at the end
-    $odir =~ s/^\ +//g;    #Remove spaces at the front
-    $odir =~ s/^\.+//g;    #Remove . at the front
-    $odir =~ s/\.+$//g;    #Remove . at the end
-    $odir =~ s/\;/-/g;     #remove ; from the filename
-    $odir =~ s/\-$//g;     #remove - from the end of the filename
-    $odir =~ s/^\-+//g;    #remove - from the front of the filename
-    $odir =~ s/\ +/-/g;    #remove - one or more spaces to one -
+    $odir =~ s/--+/-/g;             #Reduce multiple dashes to one
+    $odir =~ s/\ +$//g;             #Remove spaces at the end
+    $odir =~ s/^\ +//g;             #Remove spaces at the front
+    $odir =~ s/^\.+//g;             #Remove . at the front
+    $odir =~ s/\.+$//g;             #Remove . at the end
+    $odir =~ s/\;/-/g;              #remove ; from the filename
+    $odir =~ s/\-$//g;              #remove - from the end of the filename
+    $odir =~ s/^\-+//g;             #remove - from the front of the filename
+    $odir =~ s/\ +/-/g;             #remove - one or more spaces to one -
 
     return ($odir);
 
@@ -274,13 +274,11 @@ sub movefile {
     $ofile  = $_[2];    # output sanitazed file name
     $oext   = $_[3];    # output file extension
 
-    # say "|0|", $ifile, "||", $folder, "||", $ofile, "||", $oext, "||";
-    if ( -d $ifile ) {    # are we talking about a directory ?
+    if ( -d $ifile ) {  # are we talking about a directory ?
         $ofile .= $oext;                    # $oext should not have anything
         $ifile =~ s!"!\\\"!g;
         unless ( -d $folder . $ofile ) {    # if does not exits
 
-            # say "|1|", $ifile, "||", $folder, "||", $ofile, "||";
             $rc = system("$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile\"");
             if ( $rc == 0 ) {
                 print( $ifile, "  --->  ", $folder . $ofile, "\n" );
@@ -296,7 +294,6 @@ sub movefile {
         $folder .= $ofile . "/";            # try to make it a subfolder
         unless ( -d $folder . $ofile ) {    # if does not exits
 
-            # say "|1|", $ifile, "||", $folder, "||", $ofile, "||", $oext, "||";
             $rc = system("$commandmv  $ibk \"$ifile\" $ibk \"$folder$ofile\"");
             if ( $rc == 0 ) {
 
@@ -314,9 +311,7 @@ sub movefile {
             $vert = "-" . $ver;
             unless ( -d $folder . $ofile . $vert ) {
 
-            # say "|2|", $ifile, "||", $folder, "||", $ofile, "||", $vert, "||";
-                $rc = system(
-                    "$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile$vert\"");
+                $rc = system("$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile$vert\"");
                 if ( $rc == 0 ) {
 
                     # print( $ifile, "  --->  ", $folder . $ofile . $vert,
@@ -332,13 +327,11 @@ sub movefile {
         return;
     }
 
-    # say "|3|", $ifile, "||", $folder, "||", $ofile, "||", $oext, "||";
     if ( -f $ifile ) {    # are we talking about a regular file ?
 
         $ifile =~ s!"!\\\"!g;
-        unless ( -f $folder . $ofile . $oext ) {  # if it does not exist already
-            $rc =
-              system("$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile$oext\"");
+        unless ( -f $folder . $ofile . $oext ) {    # if it does not exist already
+            $rc = system("$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile$oext\"");
             if ( $rc == 0 ) {
                 print( $ifile, "  --->  ", $folder . $ofile . $oext, "\n" );
             }
@@ -355,12 +348,9 @@ sub movefile {
             unless ( -f $folder . $ofile . $vert . $oext ) {
                 $rest = $vert . $oext;
 
-        # say "|4|",$ifile, "||", $folder, "||", $ofile, "||", $rest,"||", "||";
-                $rc = system(
-                    "$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile$rest\"");
+                $rc = system("$commandmv $ibk \"$ifile\" $ibk \"$folder$ofile$rest\"");
                 if ( $rc == 0 ) {
-                    print( $ifile, "  --->  ",
-                        $folder . $ofile . $vert . $oext, "\n" );
+                    print( $ifile, "  --->  ", $folder . $ofile . $vert . $oext, "\n" );
                 }
                 else {
                     die "SAN05E: Error while copying $ifile \n";
