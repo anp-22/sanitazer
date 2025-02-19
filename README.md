@@ -14,7 +14,6 @@
 ## Requirements
 
 * utf8
-* Python v5.38
 * Text::Unidecode
 * Date::Simple
 * File::Basename
@@ -32,7 +31,7 @@ To run sanitazer securely, two bash scripts has been provided:
     Will sanitazer recursively all files in **folder_name**
 
 ##  License
-Sanitazer includes the following code that has been modified:
+Sanitazer includes the following code that has been modified and hopefully improved:
 
   * **Titlecase** Original version by John Gruber and Re-written and much
     improved by Aristotle Pagaltzis. MIT Lincense
