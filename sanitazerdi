@@ -5,7 +5,7 @@ wd=${1:-"$(pwd)"}
 wd="${wd}/"
 echo "** Cleanning Folder Names **"
 
-if [ ""$wd"" == ""$HOME/"" ]; then
+if [ "$wd" == "$HOME/" ]; then
     echo "***  Invalid Folder ""$wd"" ***"
     exit 1
 fi
