@@ -9,6 +9,7 @@ use Date::Simple ( 'date', 'today' );
 use File::Basename;
 use warnings;
 use Cwd;
+our $VERSION = qv('0.6.0');
 
 =pod
          ___  __ _ _ __ (_) |_ __ _ _______ _ __

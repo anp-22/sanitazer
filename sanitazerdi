@@ -22,7 +22,7 @@ fi
 (
 
     echo "** Cleanning Folder Names **"
-    find "$wd" -ignore_readdir_race -depth -type d -exec /home/anp/SRC/PERL/sanitazer/sanitazer13.pl '{}' \;
+    find "$wd" -ignore_readdir_race -depth -type d -exec /home/anp/src/PERL/sanitazer/sanitazer13.pl '{}' \;
 )
 
 # the () prevent effects inmidialy after finishing
