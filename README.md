@@ -17,6 +17,7 @@
 * Text::Unidecode
 * Date::Simple
 * File::Basename
+* use Text::Capitalize
 * Cwd
 
 ## Running sanitazer
@@ -33,9 +34,6 @@ To run sanitazer securely, two bash scripts has been provided:
 ##  License
 Sanitazer includes the following code that has been modified and hopefully improved:
 
-  * **Titlecase** Original version by John Gruber and Re-written and much
-    improved by Aristotle Pagaltzis. MIT Lincense
-
   * **Sanitaze** Originaly from git sanity and modified by Andreas Gohr.                                                     
     GNU  General Public License 2 or later
 
@@ -49,6 +47,7 @@ Otherwise  This program is free software: you can redistribute it and/or modify 
     If not, see <https://www.gnu.org/licenses/>.
 
 Copyright (C) 2025 Agustin Navarro (agustin.navarro@gmail.com) 
+Copyright (C) 2026 Agustin Navarro (agustin.navarro@gmail.com)
 
 # WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
 

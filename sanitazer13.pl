@@ -10,7 +10,7 @@ use File::Basename;
 use Text::Capitalize;
 use warnings;
 use Cwd;
-our $VERSION = ('0.6.0');
+our $VERSION = ('0.7.1');
 
 =pod
          ___  __ _ _ __ (_) |_ __ _ _______ _ __
@@ -30,7 +30,7 @@ our $VERSION = ('0.6.0');
 
 =head1 VERSION
 
-our $VERSION = qv('0.7.0');
+our $VERSION = qv('0.7.1');
 
    Date: Thu June  6 11:21:26 AM -04 2023
 
@@ -38,7 +38,7 @@ our $VERSION = qv('0.7.0');
 =head1 CHANGES :
  
   REF NO  VERSION  DATE    WHO     DETAIL
-  001 01    070		260606	 anp		remplaze subroutine titlecase by Text::Capitalize from CPAN
+  001 01    071		260606	 anp		remplaze subroutine titlecase by Text::Capitalize from CPAN
 
 
 =head1 License
